@@ -66,16 +66,14 @@ def count_words(list_of_words, dict_words) -> dict:
     return dict_words
 
 
-def determine_top_words(dict_words, num_of_words) -> dict:
-    #determines top words but might have a couple extras
-    top_dict_entries = {}
-
+def determine_top_words(dict_words, num_of_words) -> None:
     checker = num_of_words
     len_dict_words = len(dict_words)
 
     while True:
         n = 0
-        buffer_list_removal = []
+        words = []
+
 
         values = dict_words.values()
         max_value = max(values)
@@ -83,21 +81,38 @@ def determine_top_words(dict_words, num_of_words) -> dict:
         for word in dict_words:
             if dict_words[word] == max_value:
                 n += 1
-                top_dict_entries[word] = max_value
+                checker -= 1
 
 
-        buffer_list_removal.append(word)
+                words.append(word)
 
-        for word_to_del in buffer_list_removal:
-            del dict_words[word_to_del]
 
-        checker -= n
+        for word in words:
+            del dict_words[word]
+
+        words.sort()
+
+        len_of_words = len(words)
+
+        print("The following words appeared", max_value, "times each: ", end="")
+
+
+        if n == 1:
+            word = ""
+            word += words[0]
+            print(word, end="")
+        else:
+            for i in range(len_of_words - 1):
+                if i == 0:
+                    print(words[i] + ",", end = "")
+                else:
+                    print(" " + words[i] + ",", end="")
+            print(" " + words[-1])
+
+        print("")
+
         if checker <= 0:
             break
-
-    display_output(top_dict_entries, num_of_words)
-
-    #return top_dict_entries
 
 
 def get_clean_word(words : list) -> list:
@@ -132,14 +147,10 @@ def display_output(top_dict_entries, num_of_words):
 
     """
 
-    for key in dic
-
-    for i in range(num_of_words):
-        pass
         #print("The following words appeared", top_dict_entries[entry], "times each: ")
 
 
 if __name__ == "__main__":
     #main()
     #print(gt_clean_word("   $%^&*foo,.   "))
-    print(determine_top_words({"foo": 5, "charlie" : 6, "mack" : 6, "taj" : 7, "chris" : 8}, 2))
+    determine_top_words({"foo": 5,"mack" : 6, "charlie" : 6,  "taj" : 7, "chris" : 8}, 3)
